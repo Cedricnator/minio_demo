@@ -1,0 +1,12 @@
+node_modules
+dist
+.angular
+.vscode
+*.log
+npm-debug.log*
+.DS_Store
+.env
+coverage
+.nyc_output
+*.spec.ts
+e2e

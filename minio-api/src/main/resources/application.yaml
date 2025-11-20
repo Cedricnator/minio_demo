@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: minio
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always
+  
+minio:
+  url: http://localhost:9100
+  access:
+    key: minioadmin
+  secret:
+    key: minioadmin
+  bucket:
+    name: demo-bucket
+  secure: false
+
+
+    

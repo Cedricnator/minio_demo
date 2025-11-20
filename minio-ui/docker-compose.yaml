@@ -1,0 +1,15 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: minio-frontend
+    hostname: frontend
+    ports:
+      - "80:80"
+    networks:
+      - minio_demo_network
+
+networks:
+  minio_demo_network:
+    external: true
