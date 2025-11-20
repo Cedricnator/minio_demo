@@ -120,13 +120,13 @@ minio-demo/
 
 ## Endpoints API
 ### Upload de Archivos
-- **POST** `/api/files/upload`
+- **POST** `/api/v1/files`
 - **Content-Type**: `multipart/form-data`
 - **Parámetro**: `file` (archivo de imagen)
 
 Ejemplo con cURL:
 ```bash
-curl -X POST http://localhost:8080/api/files/upload \
+curl -X POST http://localhost:8080/api/v1/files \
   -F "file=@imagen.jpg"
 ```
 
@@ -249,6 +249,7 @@ unzip nombre_proyecto
 
 3. Agregar Dependencias Necesarias en POM
 ```xml
+<!-- pom.xml -->
 <dependency>
   <groupId>io.minio</groupId>
   <artifactId>minio</artifactId>
@@ -269,6 +270,7 @@ unzip nombre_proyecto
 
 4. Crear docker-compose.yml
 ```yaml
+# docker-compose.yaml
 services:
   minio:
     image: minio/minio:latest
@@ -401,11 +403,11 @@ public class StorageService {
   public void init() {
     try {
       boolean exists = minioClient.bucketExists(
-          BucketExistsArgs.builder().bucket(bucketName).build()
+        BucketExistsArgs.builder().bucket(bucketName).build()
       );
       if (!exists) {
         minioClient.makeBucket(
-            MakeBucketArgs.builder().bucket(bucketName).build()
+          MakeBucketArgs.builder().bucket(bucketName).build()
         );
         log.info("Bucket '{}' created successfully", bucketName);
       } else {
@@ -420,12 +422,12 @@ public class StorageService {
   public void uploadFile(MultipartFile file){
     try (InputStream inputStream = file.getInputStream()) {
       minioClient.putObject(
-          PutObjectArgs.builder()
-            .bucket(bucketName)
-            .object(file.getOriginalFilename())
-            .stream(inputStream, file.getSize(), -1)
-            .contentType(file.getContentType())
-            .build()
+        PutObjectArgs.builder()
+          .bucket(bucketName)
+          .object(file.getOriginalFilename())
+          .stream(inputStream, file.getSize(), -1)
+          .contentType(file.getContentType())
+          .build()
       );
     } catch (MinioException | IOException | InvalidKeyException | NoSuchAlgorithmException e) {
       log.error("Error uploading file to MinIO", e);
